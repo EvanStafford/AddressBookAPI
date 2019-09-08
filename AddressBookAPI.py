@@ -95,19 +95,3 @@ def named_contact(name):
     elif request.method == 'DELETE':
         result = db.delete_contact(escape(name))
         return result, result['status']
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
