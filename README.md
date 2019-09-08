@@ -6,7 +6,7 @@ APIDatabase.py contains a class that the API uses to interact with Elasticsearch
 
 test_AddressBookAPI.py contains the unit tests.
 
-elastic_host_config.json is a short json file containing the host and port information that gets passed to Elasticsort() in APIDatabase.py. It should be changed to match the Elasticsearch server. I haven't tested it with different setups, so hopefully it works.
+elastic_host_config.json is a short json file containing the host and port information that gets passed to Elasticsort() in APIDatabase.py. It should be changed to match the Elasticsearch server. I haven't tested it with different setups, but hopefully it works.
 
 The steps I took on my machine to get the API running (after installing the necessary software):
 
