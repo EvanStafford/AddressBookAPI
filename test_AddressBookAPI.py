@@ -1,31 +1,14 @@
 """
+run with:
 python -m unittest test_AddressBookAPI.py
 """
 
 import unittest
 from elasticsearch import Elasticsearch
 from APIDatabase import APIDatabase
-import random
-import string
-import json
 
 es = Elasticsearch()
 db = APIDatabase(elastic_index='test-index')
-
-data_model = {
-    'name': '',
-    'email': '',
-    'phone': '',
-    'postal_address': ''
-}
-
-random_contacts = []
-characters = string.ascii_letters + string.digits + string.punctuation
-for i in range(100):
-    contact = data_model.copy()
-    for k in data_model:
-        contact[k] = ''.join(random.choice(characters) for c in range(random.randrange(1,50)))
-    random_contacts.append(contact)
 
 test_contact = {
             'name': 'Firstname Lastname',
@@ -36,6 +19,7 @@ test_contact = {
 
 class testAPIDatabase(unittest.TestCase):
     def test_create_contact(self):
+        # start each test with an empty index
         es.indices.delete('test-index', ignore=[400, 404])
         es.indices.create('test-index', ignore=[400, 404])
 
@@ -83,6 +67,7 @@ class testAPIDatabase(unittest.TestCase):
         es.indices.create('test-index', ignore=[400, 404])
         db.create_contact(test_contact)
 
+        # this one fails; didn't manage to figure out why
         self.assertEqual(db.get_contact_by_query(10, 0, '*'), [test_contact])
         
 if __name__ == '__main__':

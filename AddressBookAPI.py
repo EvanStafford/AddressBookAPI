@@ -34,7 +34,7 @@ contact_data_conditions = {
     'postal_address': lambda s : len(s) < 1000
 }
 
-# connect to the database and gain access to methods for interacting with it
+# connect to the database and gain access to the methods for interacting with it
 db = APIDatabase()
 
 @app.route('/contact', methods=['GET', 'POST'])
@@ -51,7 +51,7 @@ def contact():
         new_contact = contact_data_model.copy()
         
         # ensure there were not fields outside the data model that were passed, and 
-        # ensure the data values provided conform to the given conditions
+        # ensure the data values provided conform to the stated conditions
         for field in request.args: 
             value = request.args.get(field)
             if field not in contact_data_model:
@@ -74,7 +74,7 @@ def named_contact(name):
         contact_details = {}
         
         # ensure there were not fields outside the data model that were passed, and 
-        # ensure the data values provided conform to the given conditions
+        # ensure the data values provided conform to the stated conditions
         for field in request.args:
             value = request.args.get(field)
             if field not in contact_data_model:

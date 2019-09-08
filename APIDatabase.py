@@ -1,13 +1,15 @@
 class APIDatabase:
     def __init__(self, elastic_index='address-book', *args, **kwargs):
         # calls Elasticsearch() to connect to the database and creates the index for the address book if needed
+        
         import json
         from elasticsearch import Elasticsearch
         from elasticsearch import exceptions as es_exceptions
+        
         # hold on to the exceptions so they can be recognized in the try...except blocks later
         self.es_exceptions = es_exceptions
 
-        # host and port information for Elasticshare() is in a separate json file
+        # host and port information for Elasticshare() is in the separate json file
         try:
             with open('./elastic_host_config.json') as f:
                 elastic_host_info = json.load(f)
@@ -36,6 +38,7 @@ class APIDatabase:
     
     def get_contact_by_name(self, name):
         # returns the contact with the given name
+        
         try:
             return self.database.get_source(index=self.elastic_index, id=name)['doc']
         except self.es_exceptions.NotFoundError:
@@ -43,6 +46,7 @@ class APIDatabase:
 
     def create_contact(self, contact_details):
         # creates a contact with the given contact_details (which includes a name)
+        
         try:
             self.database.create(index=self.elastic_index, id=contact_details['name'], body={'doc': contact_details})
             return {'message': 'created', 'status': 200}
@@ -51,6 +55,7 @@ class APIDatabase:
     
     def update_contact(self, name, contact_details):
         # updates a contact with the new contact_details
+        
         try:
             result = self.database.update(index=self.elastic_index, id=name, body={'doc': {'doc': contact_details}})
             return {'message': result['result'], 'status': 200}
@@ -59,6 +64,7 @@ class APIDatabase:
     
     def delete_contact(self, name):
         # deletes the contact with the given name
+        
         try:
             self.database.delete(index=self.elastic_index, id=name)
             return {'message': 'deleted', 'status': 200}
